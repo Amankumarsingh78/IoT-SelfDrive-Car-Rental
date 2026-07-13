@@ -1,0 +1,6 @@
+-- ==========================================
+-- Project: IoT-Enabled Self-Drive Car Rental Platform
+-- Database: car_rental
+-- Author: Aman Kumar Singh
+-- Description: Production-ready database schema
+-- ==========================================
