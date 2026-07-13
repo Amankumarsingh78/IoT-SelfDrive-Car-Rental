@@ -3,52 +3,99 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
+// ==============================
+// Database Connection
+// ==============================
 const pool = require("./config/db");
-const userRoutes = require("./routes/userRoutes");
 
+// ==============================
+// Routes
+// ==============================
+const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
+
+// ==============================
+// Authentication Middleware
+// ==============================
+const authenticate = require("./middleware/authMiddleware");
+
+// ==============================
+// Initialize Express App
+// ==============================
 const app = express();
 
-// ==============================
-// Middleware
-// ==============================
+// ======================================================
+// Global Middleware
+// ======================================================
+
+// Enable Cross-Origin Requests
 app.use(cors());
+
+// Parse JSON Request Body
 app.use(express.json());
 
-// ==============================
-// User Routes
-// ==============================
+// ======================================================
+// API Routes
+// ======================================================
+
+// User CRUD Routes
 app.use("/api/users", userRoutes);
 
-// ==============================
-// Test Route
-// ==============================
-app.get("/", (req, res) => {
-  res.send("IoT Car Rental Backend Running 🚗");
+// Authentication Routes
+// Login Endpoint:
+// POST /api/auth/login
+app.use("/api/auth", authRoutes);
+
+// ======================================================
+// Protected Route (Temporary)
+// Used only for testing JWT Authentication
+// Remove or move this later to a dedicated controller.
+// ======================================================
+
+app.get("/api/profile", authenticate, (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Protected route accessed successfully",
+    user: req.user,
+  });
 });
 
-// ==============================
-// Health Check API
-// ==============================
+// ======================================================
+// Default Route
+// ======================================================
+
+app.get("/", (req, res) => {
+  res.send("🚗 IoT Self Drive Car Rental Backend Running...");
+});
+
+// ======================================================
+// Health Check Route
+// ======================================================
+
 app.get("/api/health", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     message: "Server is healthy 🚀",
   });
 });
 
-// ==============================
+// ======================================================
 // Test Database Connection
-// ==============================
+// ======================================================
+
 async function testDatabaseConnection() {
   try {
+    // Get Connection from Pool
     const connection = await pool.getConnection();
 
     console.log("✅ Connected to MySQL Database");
 
-    const [rows] = await connection.query("SELECT NOW() AS currentTime;");
+    // Test Query
+    const [rows] = await connection.query("SELECT NOW() AS currentTime");
 
     console.log("📅 Database Time:", rows[0].currentTime);
 
+    // Release Connection Back to Pool
     connection.release();
   } catch (error) {
     console.error("❌ Database Connection Failed");
@@ -56,13 +103,18 @@ async function testDatabaseConnection() {
   }
 }
 
+// Test DB Connection on Server Startup
 testDatabaseConnection();
 
-// ==============================
-// Start Server
-// ==============================
+// ======================================================
+// Start Express Server
+// ======================================================
+
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log("==================================");
+  console.log(`🚀 Server Running on Port ${PORT}`);
+  console.log(`🌐 http://localhost:${PORT}`);
+  console.log("==================================");
 });
