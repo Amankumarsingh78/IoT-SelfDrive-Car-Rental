@@ -1,17 +1,21 @@
 # Test Credentials
 
-## Admin Account
-
-Email:
-superadmin2@gmail.com
-
-Password:
-Admin@123
-
-Role:
-admin
+## Normal User
 
 ---
+
+Name : Aman User
+Email : amanuser@gmail.com
+Password : Admin@123
+Role : user
+
+## Admin
+
+---
+
+Email : superadmin2@gmail.com
+Password : Admin@123
+Role : admin
 
 ## Notes
 
