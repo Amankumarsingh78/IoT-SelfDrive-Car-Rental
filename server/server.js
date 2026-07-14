@@ -13,6 +13,7 @@ const pool = require("./config/db");
 // ==============================
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
+const carRoutes = require("./routes/carRoutes");
 
 // ==============================
 // Authentication Middleware
@@ -36,7 +37,7 @@ app.use(express.json());
 
 // ======================================================
 // API Routes
-// ======================================================
+// =====================================================
 
 // User CRUD Routes
 app.use("/api/users", userRoutes);
@@ -45,6 +46,9 @@ app.use("/api/users", userRoutes);
 // Login Endpoint:
 // POST /api/auth/login
 app.use("/api/auth", authRoutes);
+
+// Car Routes
+app.use("/api/cars", carRoutes);
 
 // ======================================================
 // Protected Route (Temporary)
