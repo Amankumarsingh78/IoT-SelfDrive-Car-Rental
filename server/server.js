@@ -14,6 +14,7 @@ const pool = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const carRoutes = require("./routes/carRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 
 // ==============================
 // Authentication Middleware
@@ -49,6 +50,9 @@ app.use("/api/auth", authRoutes);
 
 // Car Routes
 app.use("/api/cars", carRoutes);
+
+// Booking Routes
+app.use("/api/bookings", bookingRoutes);
 
 // ======================================================
 // Protected Route (Temporary)
