@@ -15,6 +15,7 @@ const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const carRoutes = require("./routes/carRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 // ==============================
 // Authentication Middleware
@@ -43,9 +44,7 @@ app.use(express.json());
 // User CRUD Routes
 app.use("/api/users", userRoutes);
 
-// Authentication Routes
-// Login Endpoint:
-// POST /api/auth/login
+// Authentication Routes Login Endpoint: POST /api/auth/login
 app.use("/api/auth", authRoutes);
 
 // Car Routes
@@ -53,6 +52,9 @@ app.use("/api/cars", carRoutes);
 
 // Booking Routes
 app.use("/api/bookings", bookingRoutes);
+
+// Payment Routes
+app.use("/api/payments", paymentRoutes);
 
 // ======================================================
 // Protected Route (Temporary)

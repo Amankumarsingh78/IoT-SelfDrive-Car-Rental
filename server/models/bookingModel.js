@@ -197,6 +197,24 @@ const updateCarStatus = async (car_id, status) => {
 };
 
 /**
+ * Update Booking Payment Status
+ */
+const updateBookingPaymentStatus = async (booking_id, payment_status) => {
+  const [result] = await db.query(
+    `
+      UPDATE bookings
+      SET
+        payment_status = ?,
+        updated_at = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `,
+    [payment_status, booking_id],
+  );
+
+  return result;
+};
+
+/**
  * Delete booking
  */
 const deleteBooking = async (id) => {
@@ -242,4 +260,5 @@ module.exports = {
   updateCarStatus,
   deleteBooking,
   cancelBooking,
+  updateBookingPaymentStatus,
 };

@@ -1,4 +1,5 @@
 const bookingModel = require("../models/bookingModel");
+const { calculateFinalFare } = require("../utils/fareCalculator");
 
 /**
  * Create Booking
@@ -54,7 +55,7 @@ const createBooking = async (req, res) => {
       });
     }
 
-    // Calculate duration
+    // Validate booking dates
     const start = new Date(start_date);
     const end = new Date(end_date);
 
@@ -65,14 +66,17 @@ const createBooking = async (req, res) => {
       });
     }
 
-    const timeDifference = end - start;
-
-    const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-
     // Get car price
     const carPrice = await bookingModel.getCarPrice(car_id);
 
-    const total_price = days * carPrice.price_per_day;
+    // Calculate Fare
+    const fare = calculateFinalFare({
+      startDate: start_date,
+      endDate: end_date,
+      pricePerDay: carPrice.price_per_day,
+    });
+
+    const total_price = fare.finalAmount;
 
     // Create booking
     const booking = await bookingModel.createBooking({
@@ -93,6 +97,7 @@ const createBooking = async (req, res) => {
       message: "Booking created successfully",
       booking_id: booking.insertId,
       total_price,
+      fare,
     });
   } catch (error) {
     console.error(error);
