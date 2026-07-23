@@ -17,6 +17,8 @@ const carRoutes = require("./routes/carRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const kycRoutes = require("./routes/kycRoutes");
+const iotRoutes = require("./routes/iotRoutes");
+const startIoTSimulator = require("./utils/iotSimulator");
 
 // ==============================
 // Authentication Middleware
@@ -59,6 +61,9 @@ app.use("/api/payments", paymentRoutes);
 
 // KYC Routes
 app.use("/api/kyc", kycRoutes);
+
+// IoT Routes
+app.use("/api/iot", iotRoutes);
 
 // ======================================================
 // Protected Route (Temporary)
@@ -119,6 +124,8 @@ async function testDatabaseConnection() {
 
 // Test DB Connection on Server Startup
 testDatabaseConnection();
+// Start IoT Simulator
+startIoTSimulator();
 
 // ======================================================
 // Start Express Server
