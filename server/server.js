@@ -16,6 +16,7 @@ const authRoutes = require("./routes/authRoutes");
 const carRoutes = require("./routes/carRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const kycRoutes = require("./routes/kycRoutes");
 
 // ==============================
 // Authentication Middleware
@@ -55,6 +56,9 @@ app.use("/api/bookings", bookingRoutes);
 
 // Payment Routes
 app.use("/api/payments", paymentRoutes);
+
+// KYC Routes
+app.use("/api/kyc", kycRoutes);
 
 // ======================================================
 // Protected Route (Temporary)
